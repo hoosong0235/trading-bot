@@ -188,10 +188,11 @@ try:
                         send_message(
                             f"Trading Bot: {ISCD} PRPR({PRPR}₩) is higher than PRHI({PRHI}₩)")
 
-            if TIME_NOW.minute == 30 and TIME_NOW.second < 5:
+            if TIME_NOW.minute == 30:
 
                 send_message("Trading Bot: OK")
-                time.sleep(5)
+
+            time.sleep(60)
 
     else:
 
