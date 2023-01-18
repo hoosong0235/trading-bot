@@ -126,7 +126,7 @@ def inquire_daily_itemchartprice(ISCD):
     for day in OUTPUT:
         CLPR_LIST.append(int(day['stck_clpr']))
 
-    send_message(f"Inquire Daily Item Chart Price: OK")
+    send_message(f"{ISCD}: OK")
 
     return CLPR_LIST
 
@@ -135,8 +135,6 @@ def inquire_daily_itemchartprice(ISCD):
 def calculate_mean_and_standard_deviation(CLPR_LIST):
     MEAN = int(statistics.mean(CLPR_LIST))
     STDDEV = int(statistics.stdev(CLPR_LIST))
-
-    send_message(f"Calculate Mean and Standard Deviation: OK")
 
     return MEAN, STDDEV
 
@@ -154,7 +152,8 @@ try:
             IS_INITIALIZED = True
             ACCESS_TOKEN = get_access_token()
 
-            ISCD_DICT = {"005930": (), "035420": (), "035720": ()}
+            ISCD_DICT = {"005930": (), "035420": (), "035720": (),
+                         "015760": (), "263750": (), "183490": ()}
             SEND_LIST = []
 
             for ISCD in ISCD_DICT.keys():
