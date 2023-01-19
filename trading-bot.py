@@ -4,6 +4,7 @@ import datetime
 import time
 import yaml
 import statistics
+import pytz
 
 
 # Open Config
@@ -22,9 +23,9 @@ TIME_SLEEP = 0.5
 
 # Send Message to Discord
 def send_message(msg):
-    print(msg)
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
     message = {"content": f"[{now.strftime('%Y-%m-%d %H:%M:%S')}] {msg}"}
+    print(message)
     requests.post(DISCORD_WEBHOOK_URL, data={"content": f"** **"})
     time.sleep(TIME_SLEEP)
     requests.post(DISCORD_WEBHOOK_URL, data=message)
@@ -145,7 +146,7 @@ try:
 
     while True:
 
-        TIME_NOW = datetime.datetime.now()
+        TIME_NOW = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
 
         if not IS_INITIALIZED:
 
@@ -165,6 +166,8 @@ try:
                 hour=9, minute=0, second=0, microsecond=0)
             TIME_END = TIME_NOW.replace(
                 hour=15, minute=0, second=0, microsecond=0)
+
+            send_message("Initialize: OK")
 
         if TIME_NOW < TIME_END:
 
@@ -193,13 +196,13 @@ try:
 
             time.sleep(60)
 
-    else:
+        else:
 
-        IS_INITIALIZED = False
-        revoke_access_token()
+            IS_INITIALIZED = False
+            revoke_access_token()
 
-        time.sleep((datetime.datetime.combine(TIME_NOW.date(
-        ) + datetime.timedelta(days=1), datetime.time(9, 0)) - TIME_NOW).total_seconds())
+            send_message("Terminate: OK")
+            time.sleep(63000)
 
 except Exception as e:
     send_message(f"Exception: {e}")
